@@ -173,3 +173,82 @@ void test_MathFunction_Integration() {
     bool passed = (abs(integral - 2.0) < 0.01);
     reportTest("MathFunction - Integration", passed);
 }
+
+void test_Sequence_Arithmetic() {
+    ArithmeticSequence seq(2, 3, "a"); 
+    
+    bool passed = (seq.getTerm(1) == 2) && (seq.getTerm(2) == 5) && 
+                  (seq.getTerm(3) == 8) && (seq.getTerm(4) == 11);
+    reportTest("Sequence - Arithmetic Progression", passed);
+}
+
+void test_Sequence_Geometric() {
+    GeometricSequence seq(2, 3, "g"); 
+    
+    bool passed = (seq.getTerm(1) == 2) && (seq.getTerm(2) == 6) && 
+                  (seq.getTerm(3) == 18) && (seq.getTerm(4) == 54);
+    reportTest("Sequence - Geometric Progression", passed);
+}
+
+void test_Sequence_Fibonacci() {
+    RecursiveSequence fib(
+        {1, 1},
+        [](const vector<double>& prev) { return prev[0] + prev[1]; },
+        "F"
+    );
+    
+    bool passed = (fib.getTerm(1) == 1) && (fib.getTerm(2) == 1) && 
+                  (fib.getTerm(3) == 2) && (fib.getTerm(4) == 3) &&
+                  (fib.getTerm(5) == 5) && (fib.getTerm(6) == 8);
+    reportTest("Sequence - Fibonacci", passed);
+}
+
+void test_Sequence_PartialSum() {
+    ArithmeticSequence seq(1, 1, "a");
+    
+    double sum = seq.partialSum(1, 5);
+    bool passed = (sum == 15.0);
+    reportTest("Sequence - Partial Sum", passed);
+}
+
+int main() {
+    cout << "╔════════════════════════════════════════════════════════════╗\n";
+    cout << "║                    RUNNING UNIT TESTS                      ║\n";
+    cout << "╚════════════════════════════════════════════════════════════╝\n\n";
+    
+    test_SparseList_SetGet();
+    test_SparseList_SizeCount();
+    test_SparseList_FindByValue();
+    test_SparseList_FindFirstBy();
+    test_SparseList_SaveLoad();
+    
+    test_SparseMatrix_SetGet();
+    test_SparseMatrix_Transpose();
+    test_SparseMatrix_Addition();
+    test_SparseMatrix_VectorMultiply();
+    
+    test_MathExpression_Constant();
+    test_MathExpression_Variable();
+    test_MathExpression_Sum();
+    test_MathExpression_Derivative();
+    
+    test_MathFunction_Integration();
+    
+    test_Sequence_Arithmetic();
+    test_Sequence_Geometric();
+    test_Sequence_Fibonacci();
+    test_Sequence_PartialSum();
+    
+    cout << "TEST SUMMARY:\n";
+    cout << "Total tests: " << (testsPassed + testsFailed) << "\n";
+    cout << "Passed: " << testsPassed << "\n";
+    cout << "Failed: " << testsFailed << "\n";
+    
+    if (testsFailed == 0) {
+        cout << "\n✓ ALL TESTS PASSED!\n";
+        return 0;
+    } else {
+        cout << "\n✗ SOME TESTS FAILED!\n";
+        return 1;
+    }
+}
