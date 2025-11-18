@@ -78,3 +78,55 @@ void test_SparseList_SaveLoad() {
     bool passed = (list2.get(2) == 42) && (list2.get(5) == 100) && (list2.size() == 10);
     reportTest("SparseList - Save and Load", passed);
 }
+
+void test_SparseMatrix_SetGet() {
+    MapSparseMatrix<int> matrix(5, 5, 0);
+    matrix.set(1, 2, 42);
+    matrix.set(3, 4, 99);
+    
+    bool passed = (matrix.get(1, 2) == 42) && (matrix.get(3, 4) == 99) && (matrix.get(0, 0) == 0);
+    reportTest("SparseMatrix - Set and Get", passed);
+}
+
+void test_SparseMatrix_Transpose() {
+    MapSparseMatrix<int> matrix(3, 4, 0);
+    matrix.set(0, 2, 10);
+    matrix.set(2, 3, 20);
+    
+    auto transposed = unique_ptr<SparseMatrix<int>>(matrix.transpose());
+    
+    bool passed = (transposed->getRows() == 4) && (transposed->getCols() == 3) &&
+                  (transposed->get(2, 0) == 10) && (transposed->get(3, 2) == 20);
+    reportTest("SparseMatrix - Transpose", passed);
+}
+
+void test_SparseMatrix_Addition() {
+    MapSparseMatrix<int> matrix1(3, 3, 0);
+    matrix1.set(0, 0, 5);
+    matrix1.set(1, 1, 10);
+    
+    MapSparseMatrix<int> matrix2(3, 3, 0);
+    matrix2.set(0, 0, 3);
+    matrix2.set(1, 1, 7);
+    
+    auto result = unique_ptr<SparseMatrix<int>>(matrix1.add(matrix2));
+    
+    bool passed = (result->get(0, 0) == 8) && (result->get(1, 1) == 17);
+    reportTest("SparseMatrix - Addition", passed);
+}
+
+void test_SparseMatrix_VectorMultiply() {
+    MapSparseMatrix<int> matrix(2, 3, 0);
+    matrix.set(0, 0, 1);
+    matrix.set(0, 1, 2);
+    matrix.set(0, 2, 3);
+    matrix.set(1, 0, 4);
+    matrix.set(1, 1, 5);
+    matrix.set(1, 2, 6);
+    
+    vector<int> vec = {1, 2, 3};
+    auto result = matrix.multiplyVector(vec);
+    
+    bool passed = (result[0] == 14) && (result[1] == 32);
+    reportTest("SparseMatrix - Vector Multiplication", passed);
+}
