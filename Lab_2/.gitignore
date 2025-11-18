@@ -1,0 +1,39 @@
+# Compiled executables
+lab1
+tests
+*.exe
+*.out
+
+# Object files
+*.o
+*.obj
+
+# Generated data files
+*.txt
+*.m
+*.py
+*.tex
+
+# Doxygen output
+docs/
+doxygen.log
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Build directories
+build/
+bin/
+obj/
+
+# Backup files
+*.bak
+*.backup
+
+# Test files (keep test_list.txt for testing)
+!test_list.txt
