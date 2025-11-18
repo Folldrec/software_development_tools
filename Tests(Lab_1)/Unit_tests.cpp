@@ -130,3 +130,37 @@ void test_SparseMatrix_VectorMultiply() {
     bool passed = (result[0] == 14) && (result[1] == 32);
     reportTest("SparseMatrix - Vector Multiplication", passed);
 }
+
+void test_MathExpression_Constant() {
+    auto constant = make_shared<Constant>(42.0);
+    
+    bool passed = (constant->evaluate(0) == 42.0) && (constant->evaluate(100) == 42.0);
+    reportTest("MathExpression - Constant", passed);
+}
+
+void test_MathExpression_Variable() {
+    auto variable = make_shared<Variable>();
+    
+    bool passed = (variable->evaluate(5.0) == 5.0) && (variable->evaluate(10.0) == 10.0);
+    reportTest("MathExpression - Variable", passed);
+}
+
+void test_MathExpression_Sum() {
+    auto x = make_shared<Variable>();
+    auto five = make_shared<Constant>(5);
+    auto sum = make_shared<Sum>(x, five);
+    
+    bool passed = (sum->evaluate(3.0) == 8.0) && (sum->evaluate(10.0) == 15.0);
+    reportTest("MathExpression - Sum", passed);
+}
+
+void test_MathExpression_Derivative() {
+    auto x = make_shared<Variable>();
+    auto x2 = make_shared<Power>(x, 2);
+    
+    auto derivative = x2->derivative();
+    
+    double result = derivative->evaluate(3.0);
+    bool passed = (abs(result - 6.0) < 0.01);
+    reportTest("MathExpression - Derivative of x^2", passed);
+}
