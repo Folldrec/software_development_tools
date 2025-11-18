@@ -1,20 +1,11 @@
-#!/bin/bash
+set -e  
 
-###############################################################################
-# Script to generate Doxygen documentation locally
-# Usage: ./generate_docs.sh [--open]
-###############################################################################
-
-set -e  # Exit on error
-
-# Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+NC='\033[0m' 
 
-# Print colored message
 print_info() {
     echo -e "${BLUE}[INFO]${NC} $1"
 }
@@ -31,7 +22,6 @@ print_warning() {
     echo -e "${YELLOW}[WARNING]${NC} $1"
 }
 
-# Check if Doxygen is installed
 check_doxygen() {
     print_info "Checking for Doxygen..."
     
@@ -48,7 +38,6 @@ check_doxygen() {
     print_success "Doxygen found: $(doxygen --version)"
 }
 
-# Check if Doxyfile exists
 check_doxyfile() {
     print_info "Checking for Doxyfile..."
     
@@ -62,7 +51,6 @@ check_doxyfile() {
     print_success "Doxyfile found"
 }
 
-# Clean previous documentation
 clean_docs() {
     print_info "Cleaning previous documentation..."
     
@@ -74,12 +62,10 @@ clean_docs() {
     fi
 }
 
-# Generate documentation
 generate_docs() {
     print_info "Generating documentation..."
     echo ""
     
-    # Run doxygen and capture output
     if doxygen Doxyfile 2>&1 | tee doxygen.log; then
         print_success "Documentation generated successfully!"
     else
@@ -90,7 +76,6 @@ generate_docs() {
     
     echo ""
     
-    # Check for warnings
     warning_count=$(grep -c "warning:" doxygen.log || true)
     
     if [ "$warning_count" -gt 0 ]; then
@@ -104,7 +89,6 @@ generate_docs() {
     fi
 }
 
-# Show documentation stats
 show_stats() {
     print_info "Documentation statistics:"
     echo ""
@@ -128,7 +112,6 @@ show_stats() {
     fi
 }
 
-# Open documentation in browser
 open_docs() {
     print_info "Opening documentation in browser..."
     
@@ -139,7 +122,6 @@ open_docs() {
         exit 1
     fi
     
-    # Detect OS and open browser
     case "$(uname -s)" in
         Linux*)
             if command -v xdg-open &> /dev/null; then
@@ -162,26 +144,20 @@ open_docs() {
     esac
 }
 
-# Main execution
 main() {
     echo ""
-    echo "╔════════════════════════════════════════════════════════════╗"
-    echo "║        Doxygen Documentation Generator                     ║"
-    echo "╚════════════════════════════════════════════════════════════╝"
+    echo "Doxygen Documentation Generator:"
     echo ""
     
-    # Check prerequisites
     check_doxygen
     check_doxyfile
     echo ""
     
-    # Generate documentation
     clean_docs
     generate_docs
     show_stats
     echo ""
     
-    # Open in browser if requested
     if [ "$1" == "--open" ] || [ "$1" == "-o" ]; then
         open_docs
     else
@@ -195,5 +171,4 @@ main() {
     echo ""
 }
 
-# Run main function
 main "$@"
