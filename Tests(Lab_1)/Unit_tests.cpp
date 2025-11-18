@@ -164,3 +164,12 @@ void test_MathExpression_Derivative() {
     bool passed = (abs(result - 6.0) < 0.01);
     reportTest("MathExpression - Derivative of x^2", passed);
 }
+
+void test_MathFunction_Integration() {
+    auto x = make_shared<Variable>();
+    MathFunction func(x, "f");
+    
+    double integral = func.integrate(0, 2, 1000);
+    bool passed = (abs(integral - 2.0) < 0.01);
+    reportTest("MathFunction - Integration", passed);
+}
