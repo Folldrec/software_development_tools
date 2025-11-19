@@ -170,3 +170,30 @@ TEST(SparseMatrixTest, MatrixVectorMultiply) {
     EXPECT_EQ(result[1], 18); 
 }
 
+TEST(ComputerAlgebraTest, ExportFormats) {
+    auto x = std::make_shared<Variable>();
+    auto x2 = std::make_shared<Power>(x, 2);
+    MathFunction func(x2, "f");
+    
+    MathematicaExporter mathematica;
+    std::string mathFormat = mathematica.exportToFormat(func);
+    EXPECT_TRUE(mathFormat.find("^") != std::string::npos);
+    
+    SymPyExporter sympy;
+    std::string sympyFormat = sympy.exportToFormat(func);
+    EXPECT_TRUE(sympyFormat.find("**") != std::string::npos);
+    
+    LaTeXExporter latex;
+    std::string latexFormat = latex.exportToFormat(func);
+    EXPECT_TRUE(latexFormat.find("$") != std::string::npos);
+}
+
+int main(int argc, char **argv) {
+    ::testing::InitGoogleTest(&argc, argv);
+    int result = RUN_ALL_TESTS();
+    
+    std::cout << "\n\nНатисніть Enter для виходу...";
+    std::cin.get();
+    
+    return result;
+}
