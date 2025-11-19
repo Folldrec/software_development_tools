@@ -138,3 +138,35 @@ TEST(SparseListTest, FindOperations) {
     EXPECT_EQ(firstLarge, 10);
 }
 
+TEST(SparseMatrixTest, MatrixAddition) {
+    MapSparseMatrix<int> m1(3, 3, 0);
+    MapSparseMatrix<int> m2(3, 3, 0);
+    
+    m1.set(0, 0, 1);
+    m1.set(1, 1, 2);
+    
+    m2.set(0, 0, 3);
+    m2.set(2, 2, 4);
+    
+    auto result = std::unique_ptr<SparseMatrix<int>>(m1.add(m2));
+    
+    EXPECT_EQ(result->get(0, 0), 4); 
+    EXPECT_EQ(result->get(1, 1), 2); 
+    EXPECT_EQ(result->get(2, 2), 4);  
+}
+
+TEST(SparseMatrixTest, MatrixVectorMultiply) {
+    MapSparseMatrix<int> matrix(2, 3, 0);
+    
+    matrix.set(0, 0, 1);
+    matrix.set(0, 1, 2);
+    matrix.set(1, 1, 3);
+    matrix.set(1, 2, 4);
+    
+    std::vector<int> vec = {1, 2, 3};
+    auto result = matrix.multiplyVector(vec);
+    
+    EXPECT_EQ(result[0], 5);  
+    EXPECT_EQ(result[1], 18); 
+}
+
