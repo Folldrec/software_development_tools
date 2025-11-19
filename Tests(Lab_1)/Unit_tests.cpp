@@ -91,4 +91,23 @@ TEST(MathFunctionTest, Integration) {
     EXPECT_NEAR(integral, 0.5, 0.01);
 }
 
+TEST(SequenceTest, ArithmeticSequence) {
+    ArithmeticSequence seq(1.0, 2.0); 
+    
+    EXPECT_DOUBLE_EQ(seq.getTerm(1), 1.0);  
+    EXPECT_DOUBLE_EQ(seq.getTerm(2), 3.0); 
+    EXPECT_DOUBLE_EQ(seq.getTerm(5), 9.0); 
+    
+    EXPECT_DOUBLE_EQ(seq.partialSum(1, 5), 25.0);
+}
+
+TEST(SequenceTest, GeometricSequence) {
+    GeometricSequence seq(2.0, 0.5); 
+    
+    EXPECT_DOUBLE_EQ(seq.getTerm(1), 2.0);  
+    EXPECT_DOUBLE_EQ(seq.getTerm(2), 1.0);  
+    EXPECT_DOUBLE_EQ(seq.getTerm(3), 0.5);  
+    
+    EXPECT_TRUE(seq.checkConvergence());
+}
 
