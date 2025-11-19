@@ -111,3 +111,30 @@ TEST(SequenceTest, GeometricSequence) {
     EXPECT_TRUE(seq.checkConvergence());
 }
 
+TEST(SparseListTest, BasicOperations) {
+    SparseList<int> list(10, 0);
+    
+    list.set(2, 5);
+    list.set(7, 10);
+    
+    EXPECT_EQ(list.get(2), 5);
+    EXPECT_EQ(list.get(7), 10);
+    EXPECT_EQ(list.get(0), 0);
+    EXPECT_EQ(list.size(), 10);
+    EXPECT_EQ(list.nonZeroCount(), 2);
+}
+
+TEST(SparseListTest, FindOperations) {
+    SparseList<int> list(20, 0);
+    
+    list.set(5, 15);
+    list.set(10, 25);
+    
+    EXPECT_EQ(list.findByValue(15), 5);
+    EXPECT_EQ(list.findByValue(25), 10);
+    EXPECT_EQ(list.findByValue(100), -1);  
+    
+    int firstLarge = list.findFirstBy([](const int& val) { return val > 20; });
+    EXPECT_EQ(firstLarge, 10);
+}
+
