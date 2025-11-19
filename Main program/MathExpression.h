@@ -198,7 +198,6 @@ public:
     }
 };
 
-// Реалізація похідної косинуса (після оголошення Sin)
 inline std::shared_ptr<MathExpression> Cos::derivative() const {
     std::shared_ptr<MathExpression> minusOne = std::make_shared<Constant>(-1);
     std::shared_ptr<MathExpression> sinExpr = std::make_shared<Sin>(arg->clone());

@@ -1,3 +1,8 @@
+/**
+ * @file SparseList.h
+ * @brief Implementation of sparse list data structure
+ */
+
 #ifndef SPARSELIST_H
 #define SPARSELIST_H
 
@@ -7,17 +12,48 @@
 #include <fstream>
 #include <stdexcept>
 
+/**
+ * @brief Sparse list implementation that stores only non-default values
+ * 
+ * This class implements a sparse list using std::map to store only
+ * non-default values, providing efficient memory usage for sparse datasets.
+ * 
+ * @tparam T Type of elements stored in the list
+ * 
+ * @example
+ * @code
+ * // Create a sparse list of 1000 integers with default value 0
+ * SparseList<int> list(1000, 0);
+ * 
+ * 
+ * list.set(10, 42);
+ * list.set(500, 99);
+ * 
+ *
+ * std::cout << "Non-zero count: " << list.nonZeroCount() << std::endl; // Output: 2
+ * @endcode
+ */
 template<typename T>
 class SparseList : public ISparseContainer<T> {
 private:
-    std::map<size_t, T> data;
-    size_t listSize;
-    T defaultValue;
-    
+    std::map<size_t, T> data;     
+    size_t listSize;               
+    T defaultValue;                
 public:
+    /**
+     * @brief Construct a sparse list
+     * @param size Initial size of the list
+     * @param defVal Default value for unset elements
+     */
     SparseList(size_t size = 0, const T& defVal = T()) 
         : listSize(size), defaultValue(defVal) {}
     
+    /**
+     * @brief Get element at specified index
+     * @param index Position of the element
+     * @return Value at index, or default value if not explicitly set
+     * @throws std::out_of_range if index >= listSize
+     */
     T get(size_t index) const override {
         if (index >= listSize) {
             throw std::out_of_range("Index out of range");
